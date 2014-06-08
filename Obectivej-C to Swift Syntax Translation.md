@@ -2,7 +2,7 @@
 The most important first step is to run Apple's "Convert to Modern Objective-C Syntax" refactoring, so that you're using array/dictionary literals and bracket-accesses; these will then be usable in Swift. Note also that I'm a beginner in Swift, so my apologies for any mistakes or incompleteness here.
 
 |When you see this pattern | Replace with this |
-|:----------------------------------------------------   |:-------------------------------------- |
+|:----------------------------------------------------:   |:--------------------------------------: |
 |**Module**                                             ||
 |`@interface *newType* : *superType* <*protocol1*, *protocol2*>`   | `class *newType* : *superType*, *protocol1*, *protocol2*` |
 |`@implementation` OR `@synthesize` OR `@end` | \<delete\> ||
@@ -12,16 +12,15 @@ The most important first step is to run Apple's "Convert to Modern Objective-C S
 |`property(…) TypeName * IBOutlet varName; 	                   `|`@IBOutlet var varName:TypeName                                           `|
 |` _property`|`self.property`|
 |**Compiler Directives**                                          ||
+|`#import module.h`|Include in `...-Bridging-Header.h` for Obj-C modules <br> Delete for project modules<br>`import module` for frameworks`|
 |`#define macroName value 	   `|`    	let macroName  = value`|
-|`#import module.h`|Include in `...-Bridging-Header.h` <br> Delete for project modules`|
-|`#define / #ifdef / #ifndef`| N/A|
-|`#if value ... #else ...#end  	   `|` #if value ... #else ...#end `|
+|More complex`#define`s / `#ifdef` / `#ifndef`| N/A|
 |`#elif value`|`#elseif value`|
 |`#pragma mark sectionName`| `// MARK: sectionName` (not implemented yet)|
 |`NSAssert(conditon,description)`|`assert(condition, description)`|
 |**Types**                                            ||
 |`NSString *`|`String`|
-|`NSArray * arrayName = arrayValue`|`let arrayName: Array<TypeName> = arrayValue` OR <br>`let arrayName: TypeName[] = arrayValue`|
+|`NSArray * arrayName = arrayValue`|`let arrayName = arrayValue` OR<br>`let arrayName: Array<TypeName> = arrayValue` OR <br>`let arrayName: TypeName[] = arrayValue`|
 |`NSDictionary *`|`Dictionary`|
 |`NSMutableArray OR NSMutableDictionary ...`|` var arrayName...`|
 |`id` | `AnyObject`|
