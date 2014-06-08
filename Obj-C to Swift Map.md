@@ -35,6 +35,7 @@
 ***Conversion Process from Objective-C syntax to Swift***
 The most important first step is to run Apple's "Convert to Modern Objective-C Syntax" refactoring, so that you're using array/dictionary literals and bracket-accesses; these will then be usable in Swift. Note also that I'm a beginner in Swift, so my apologies for any mistakes or incompleteness here.
 
+***Manual conversion of Objective-C to Swift***
 |When you see this pattern | Replace with this |
 |:----------------------------------------------------:   |:--------------------------------------: |
 |**Module**                                             ||
@@ -77,7 +78,7 @@ The most important first step is to run Apple's "Convert to Modern Objective-C S
 |`[TypeName TypeNameWithA: value]    `|`    TypeName(a: value)`|
 |**Statements**                                            ||
 |`break` in `switch` statements| not necessary, except for empty cases,<br> but add `fallthrough` where needed|
-|`if/while (expr)` | `if/while expr`, optional, but expr must be a boolean
+|`if/while (expr)` | `if/while expr`, parentheses optional,<br> but expr must now be a boolean
 |`for ( ... )` | `for ...`, optional|
 |**Method Calls**                                            ||
 |`[object method]    `|`    object.method()`|
@@ -85,14 +86,13 @@ The most important first step is to run Apple's "Convert to Modern Objective-C S
 |**Expressions**                                            ||
 |`YES   `|`    true`|
 |`NO   `|`    false`|
-|`(TypeName) value` to recast | `value as TypeName` OR TypeName(value)|
+|`(TypeName) value` to recast | `value as TypeName` OR `TypeName(value)`|
 |`stringName.length`|`stringName.utf16` OR `stringName.countElements`|
 |`stringName isEqualToString: string2Name`|`stringName == string2Name`|
 |`NSString stringWithFormat@"...%@..%d",obj,int)`|`"...\(obj)...\(int)"`
 |**Miscellaneous** ||
 |semicolons at end of line | delete (optional) |
 | @ for literals| delete|
-[Manual conversion of Objective-C to Swift][section-mmd-tables-table1] 
 
 Beyond those mostly syntactical conversions, you'll also need to do more semantic-based conversions:
 o Handle all cases in `switch` statements (probably by adding a default case) 
@@ -102,7 +102,7 @@ o Move getters/setters into `set/get` blocks in property definitions; in set, ch
 o Biggest change is handling of nils and Optionals. Normal variables can no longer be assigned nil, only Optional ones. This should get rid of a vast array of program errors. On the other hand, all results from Cocoa methods are defined as Optionals with auto-unwrap. This means that the compile will NOT warn you that the returned values are handled incorrectly, leading to a whole new set of potential problems.
 o For every property, either (a) assign initial value, or (b) add to init call or (c) make Optional by adding ? to type
 o In initializers, you must set your own non-optional properties before calling super.init
-o There is no PerformSelector; change to ???
+o There is no PerformSelector
 
 You can see why I hope (and expect) Apple will provide a refactor; also almost all of these conversions would be relatively easy to do, if one has the clang compiler's abstract syntax tree.
 
