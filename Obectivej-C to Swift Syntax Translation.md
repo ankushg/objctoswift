@@ -6,16 +6,16 @@ The most important first step is to run Apple's "Convert to Modern Objective-C S
 |:----------------------------------------------   |:------------------------------------------- |
 |**Module**                                             ||
 |`@interface *newType* : *superType* <*protocol1*, *protocol2*>`   | `class *newType* : *superType*, *protocol1*, *protocol2*` |
-|`@implementation` OR `@synthesize` OR `@end` | delete ||
+|`@implementation` OR `@synthesize` OR `@end` | Delete ||
 |**Properties**                                             ||
 |`property(…) TypeName * varName; 	                          ` | `var varName:TypeName                                           `|
 |`property (readonly...) TypeName * varName; 	              ` | `let varName:TypeName                                           `|
 |`property(…) TypeName * IBOutlet varName; 	                   `|`@IBOutlet var varName:TypeName                                           `|
 |` _property`|`self.property`|
 |**Compiler Directives**                                          ||
-|`#import module.h`|Include in `...-Bridging-Header.h` for Obj-C modules <br> Delete for project modules<br>`import module` for frameworks|
+|`#import module.h`|Obj-C modules: Include in `...-Bridging-Header.h` <br>Project modules: Delete<br>Frameworks: `import module`|
 |`#define macroName value 	   `|`    	let macroName  = value`|
-|More complex`#define`s / `#ifdef` / `#ifndef`| N/A|
+|More complex`#define` / `#ifdef` / `#ifndef`| N/A|
 |`#elif value`|`#elseif value`|
 |`#pragma mark sectionName`| `// MARK: sectionName` (not implemented yet)|
 |`NSAssert(conditon,description)`|`assert(condition, description)`|
@@ -56,9 +56,8 @@ The most important first step is to run Apple's "Convert to Modern Objective-C S
 |`stringName isEqualToString: string2Name`|`stringName == string2Name`|
 |`NSString stringWithFormat@"...%@..%d",obj,int)`|`"...\(obj)...\(int)"`
 |**Miscellaneous** ||
-|semicolons at end of line | delete (optional) |
-| @ for literals| delete|
-
+|semicolons at end of line | Optionally delete |
+| @ for literals| Delete|
 
 Beyond those mostly syntactical conversions, you'll also need to do more semantic-based conversions:
 
@@ -66,6 +65,6 @@ Beyond those mostly syntactical conversions, you'll also need to do more semanti
 o Add overrides for all superclass `init`s
 * Change the definition for any variables that are only set once to `let` versus `var`
 * Move getters/setters into `set/get` blocks in property definitions; in set, change name for the incoming value to `newValue`
-* Biggest change is handling of `nil`s and the new `Optional`s. Normal variables can no longer be assigned nil, only Optional ones. This should get rid of a vast array of program errors. On the other hand, all results from Cocoa methods are defined as Optionals with auto-unwrap. This means that the compile will NOT warn you that the returned values are handled incorrectly, leading to a whole new set of potential runtime problems.
+* Biggest change is handling of `nil` and the new `Optional` types. Normal variables can no longer be assigned nil, only Optional ones. This should get rid of a vast array of program errors. On the other hand, all results from Cocoa methods are defined as Optionals with auto-unwrap. This means that the compiler will NOT warn you that the returned values are handled incorrectly, leading to a whole new set of potential runtime problems.
 * For every property, either (a) assign initial value, or (b) add to `init` call or (c) make `Optional` by adding `?` to type
 * In initializers, you must set your own non-optional properties before calling `super.init`
