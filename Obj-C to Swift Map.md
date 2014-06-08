@@ -55,12 +55,12 @@ The most important first step is to run Apple's "Convert to Modern Objective-C S
 |`NSAssert(conditon,description)`|`assert(condition, description)`|
 |**Types**                                            ||
 |`NSString *`|`String`|
-|`NSArray * arrayName = arrayValue`|`let arrayName: Array<TypeName> = arrayValue` OR `let arrayName: TypeName[] = arrayValue`|
+|`NSArray * arrayName = arrayValue`|`let arrayName: Array<TypeName> = arrayValue` OR <br>`let arrayName: TypeName[] = arrayValue`|
 |`NSDictionary *`|`Dictionary`|
 |`NSMutableArray OR NSMutableDictionary ...`|` var arrayName...`|
 |`id` | `AnyObject`|
 |`TypeName *`|`TypeName`|
-|c types, e.g. `uint32` OR float |Titlecase , e.g. UInt32 or Float|
+|c types, e.g. `uint32` OR `float` |Titlecase , e.g. `UInt32` or `Float`|
 |`NSInteger` OR `NSUInteger`|`Int` OR `UInt`|
 |**Method Definitions**                                              ||
 |`-(void) methodName  	   `|`    	func methodName()`|
@@ -79,7 +79,6 @@ The most important first step is to run Apple's "Convert to Modern Objective-C S
 |`break` in `switch` statements| not necessary, except for empty cases,<br> but add `fallthrough` where needed|
 |`if/while (expr)` | `if/while expr`, optional, but expr must be a boolean
 |`for ( ... )` | `for ...`, optional|
-
 |**Method Calls**                                            ||
 |`[object method]    `|`    object.method()`|
 |`[object method: param1 b: param2 …]    `|`    object.method(param1, b: param2, …)`|
