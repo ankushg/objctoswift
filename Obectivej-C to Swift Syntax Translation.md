@@ -1,18 +1,19 @@
 ***Conversion Process from Objective-C syntax to Swift***
 The most important first step is to run Apple's "Convert to Modern Objective-C Syntax" refactoring, so that you're using array/dictionary literals and bracket-accesses; these will then be usable in Swift. Note also that I'm a beginner in Swift, so my apologies for any mistakes or incompleteness here.
 
+
 |When you see this pattern | Replace with this |
-|:----------------------------------------------------   |:-------------------------------------- |
+|:----------------------------------------------   |:------------------------------------------- |
 |**Module**                                             ||
 |`@interface *newType* : *superType* <*protocol1*, *protocol2*>`   | `class *newType* : *superType*, *protocol1*, *protocol2*` |
-|`@implementation` OR `@synthesize` OR `@end` | \<delete\> ||
+|`@implementation` OR `@synthesize` OR `@end` | delete ||
 |**Properties**                                             ||
 |`property(…) TypeName * varName; 	                          ` | `var varName:TypeName                                           `|
 |`property (readonly...) TypeName * varName; 	              ` | `let varName:TypeName                                           `|
 |`property(…) TypeName * IBOutlet varName; 	                   `|`@IBOutlet var varName:TypeName                                           `|
 |` _property`|`self.property`|
 |**Compiler Directives**                                          ||
-|`#import module.h`|Include in `...-Bridging-Header.h` for Obj-C modules <br> Delete for project modules<br>`import module` for frameworks`|
+|`#import module.h`|Include in `...-Bridging-Header.h` for Obj-C modules <br> Delete for project modules<br>`import module` for frameworks|
 |`#define macroName value 	   `|`    	let macroName  = value`|
 |More complex`#define`s / `#ifdef` / `#ifndef`| N/A|
 |`#elif value`|`#elseif value`|
@@ -57,6 +58,7 @@ The most important first step is to run Apple's "Convert to Modern Objective-C S
 |**Miscellaneous** ||
 |semicolons at end of line | delete (optional) |
 | @ for literals| delete|
+
 
 Beyond those mostly syntactical conversions, you'll also need to do more semantic-based conversions:
 
