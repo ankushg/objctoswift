@@ -36,7 +36,6 @@
 The most important first step is to run Apple's "Convert to Modern Objective-C Syntax" refactoring, so that you're using array/dictionary literals and bracket-accesses; these will then be usable in Swift. Note also that I'm a beginner in Swift, so my apologies for any mistakes or incompleteness here.
 
 ***Manual conversion of Objective-C to Swift***
-
 |When you see this pattern | Replace with this |
 |:----------------------------------------------------:   |:--------------------------------------: |
 |**Module**                                             ||
@@ -96,14 +95,15 @@ The most important first step is to run Apple's "Convert to Modern Objective-C S
 | @ for literals| delete|
 
 Beyond those mostly syntactical conversions, you'll also need to do more semantic-based conversions:
-o Handle all cases in `switch` statements (probably by adding a default case) 
+
+* Handle all cases in `switch` statements (probably by adding a default case) 
 o Add overrides for all superclass `init`s
-o Change the definition for any variables that are only set once to `let` versus `var`
-o Move getters/setters into `set/get` blocks in property definitions; in set, change name for the incoming value to `newValue`
-o Biggest change is handling of nils and Optionals. Normal variables can no longer be assigned nil, only Optional ones. This should get rid of a vast array of program errors. On the other hand, all results from Cocoa methods are defined as Optionals with auto-unwrap. This means that the compile will NOT warn you that the returned values are handled incorrectly, leading to a whole new set of potential problems.
-o For every property, either (a) assign initial value, or (b) add to init call or (c) make Optional by adding ? to type
-o In initializers, you must set your own non-optional properties before calling super.init
-o There is no PerformSelector
+* Change the definition for any variables that are only set once to `let` versus `var`
+* Move getters/setters into `set/get` blocks in property definitions; in set, change name for the incoming value to `newValue`
+* Biggest change is handling of nils and Optionals. Normal variables can no longer be assigned nil, only Optional ones. This should get rid of a vast array of program errors. On the other hand, all results from Cocoa methods are defined as Optionals with auto-unwrap. This means that the compile will NOT warn you that the returned values are handled incorrectly, leading to a whole new set of potential problems.
+* For every property, either (a) assign initial value, or (b) add to init call or (c) make Optional by adding ? to type
+* In initializers, you must set your own non-optional properties before calling super.init
+
 
 You can see why I hope (and expect) Apple will provide a refactor; also almost all of these conversions would be relatively easy to do, if one has the clang compiler's abstract syntax tree.
 
