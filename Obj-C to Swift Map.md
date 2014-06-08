@@ -1,41 +1,5 @@
-***How to Port an Objective-C module in a project to Swift***
-
-0)	Download a copy of the project [here] (https://developer.apple.com/library/ios/samplecode/iPhoneCoreDataRecipes/iPhoneCoreDataRecipes.zip) and open Recipes.xcodeproj in Xcode version 6.
-
-1)	Choose `File>New File…>iOS Source>Swift File> IngredientDetailViewController` (Folder: Classes, Group: Recipe View Controllers)
-
-2)	Reply Yes to “Would you like to configure an Objective-C bridging header?”
-
-3)	Copy the first three lines below from `Recipes_Prefix.pch`  and the next three from `IngredientDetailViewController.m` into `Recipes-Bridging-Header.h`. If you do further files, obviously don't duplicate lines, and remove any files that you've converted to Swift. I haven't found any where that documents the need for the Cocoa lines, given that they're imported in the swift file, but 
-````
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import <CoreData/CoreData.h>
-#import "Recipe.h"
-#import "Ingredient.h"
-#import "EditingTableViewCell.h"
-````
-
-4) Copy/paste the text from both the `IngredientDetailViewController.h` file and the `IngredientDetailViewController.m` files into `IngredientDetailViewController.swift`. 
-
-5) Delete both `IngredientDetailViewController.h` and `.m` files from project.
-
-6) Do a global Find-and-Replace from `#import "IngredientDetailViewController.h"` to `#import "Recipes-Swift.h"` (Only one conversion in this case, and again for further files, don't duplicate this line in your Objective-C modules.)
-
-7) Check the Project>Targets>Recipes>Build Settings `Runpath Search Paths`. If it shows `$(inherited)`, remove this line or you'll get an error on launch about "no image found"
-
-8) Convert Objective-C syntax in `IngredientDetailViewController.swift` to Swift. See below for some of the substitutions required, or way below for my converted version.
-
-9) You may need to update the IB links. Do a Find>Find in Files on `IngredientDetailViewController` and select the one in Interface Builder. Open the Identity Inspector in the right-hand column. Select `IngredientDetailViewController` in the Class field, type `xxx` or something and tab.
-
-10) Build and Run. Note that after going into a recipe, you must tap Edit and then the info button of an ingredient to activate `IngredientDetailViewController`
-
-12) Congrats on building your first mixed Swift/Objective-C program!
-
 ***Conversion Process from Objective-C syntax to Swift***
 The most important first step is to run Apple's "Convert to Modern Objective-C Syntax" refactoring, so that you're using array/dictionary literals and bracket-accesses; these will then be usable in Swift. Note also that I'm a beginner in Swift, so my apologies for any mistakes or incompleteness here.
-
-***Manual conversion of Objective-C to Swift***
 
 |When you see this pattern | Replace with this |
 |:----------------------------------------------------:   |:--------------------------------------: |
@@ -101,15 +65,6 @@ Beyond those mostly syntactical conversions, you'll also need to do more semanti
 o Add overrides for all superclass `init`s
 * Change the definition for any variables that are only set once to `let` versus `var`
 * Move getters/setters into `set/get` blocks in property definitions; in set, change name for the incoming value to `newValue`
-* Biggest change is handling of nils and Optionals. Normal variables can no longer be assigned nil, only Optional ones. This should get rid of a vast array of program errors. On the other hand, all results from Cocoa methods are defined as Optionals with auto-unwrap. This means that the compile will NOT warn you that the returned values are handled incorrectly, leading to a whole new set of potential problems.
-* For every property, either (a) assign initial value, or (b) add to init call or (c) make Optional by adding ? to type
-* In initializers, you must set your own non-optional properties before calling super.init
-
-
-You can see why I hope (and expect) Apple will provide a refactor; also almost all of these conversions would be relatively easy to do, if one has the clang compiler's abstract syntax tree.
-
-Here's my cut at this particular module:
-
-````
-
-`````
+* Biggest change is handling of `nil`s and the new `Optional`s. Normal variables can no longer be assigned nil, only Optional ones. This should get rid of a vast array of program errors. On the other hand, all results from Cocoa methods are defined as Optionals with auto-unwrap. This means that the compile will NOT warn you that the returned values are handled incorrectly, leading to a whole new set of potential runtime problems.
+* For every property, either (a) assign initial value, or (b) add to `init` call or (c) make `Optional` by adding `?` to type
+* In initializers, you must set your own non-optional properties before calling `super.init`
