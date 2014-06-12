@@ -1,10 +1,11 @@
-***Conversion Process from Objective-C syntax to Swift***
-The most important first step is to run Apple's "Convert to Modern Objective-C Syntax" refactoring, so that you're using array/dictionary literals and bracket-accesses; these will then be usable in Swift. Note also that I'm a beginner in Swift, so my apologies for any mistakes or incompleteness here.
+Converting Objective-C to Swift
+===
+The most important first step is to run Apple's "Convert to Modern Objective-C Syntax" refactoring, so that you're using array/dictionary literals and bracket-accesses; these will then be usable in Swift.
 
 
-|When you see this pattern | Replace with this |
+|When you see this | Use this |
 |:----------------------------------------------   |:------------------------------------------- |
-|**Module**                                             ||
+|**Modules**                                             ||
 |`@interface *newType* : *superType* <*protocol1*, *protocol2*>`   | `class *newType* : *superType*, *protocol1*, *protocol2*` |
 |`@implementation` OR `@synthesize` OR `@end` | Delete ||
 |**Properties**                                             ||
@@ -62,9 +63,12 @@ The most important first step is to run Apple's "Convert to Modern Objective-C S
 Beyond those mostly syntactical conversions, you'll also need to do more semantic-based conversions:
 
 * Handle all cases in `switch` statements (probably by adding a default case) 
-o Add overrides for all superclass `init`s
+* Add overrides for all superclass `init`s
 * Change the definition for any variables that are only set once to `let` versus `var`
 * Move getters/setters into `set/get` blocks in property definitions; in set, change name for the incoming value to `newValue`
-* Biggest change is handling of `nil` and the new `Optional` types. Normal variables can no longer be assigned nil, only Optional ones. This should get rid of a vast array of program errors. On the other hand, all results from Cocoa methods are defined as Optionals with auto-unwrap. This means that the compiler will NOT warn you that the returned values are handled incorrectly, leading to a whole new set of potential runtime problems.
-* For every property, either (a) assign initial value, or (b) add to `init` call or (c) make `Optional` by adding `?` to type
+* A big change is the handling of `nil` and the new `Optional` types. Normal variables can no longer be assigned `nil`, only Optional ones. This should get rid of a vast array of program errors but it also means that all results from Cocoa methods are defined as Optionals with auto-unwrap. This means that the compiler will NOT warn you that the returned values are handled incorrectly, leading to a whole new set of potential runtime problems.
+* For every property, either
+  * assign initial value,
+  * add to `init` call, or
+  * make `Optional` by adding `?` to type
 * In initializers, you must set your own non-optional properties before calling `super.init`
