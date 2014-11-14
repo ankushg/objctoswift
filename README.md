@@ -22,7 +22,7 @@ The most important first step is to run Apple's "Convert to Modern Objective-C S
 |`NSAssert(conditon,description)`|`assert(condition, description)`|
 |**Types**                                            ||
 |`NSString *`|`String`|
-|`NSArray * arrayName = arrayValue`|`let arrayName = arrayValue` OR<br>`let arrayName: Array<TypeName> = arrayValue` OR <br>`let arrayName: TypeName[] = arrayValue`|
+|`NSArray * arrayName = [arrayValue]`|`let arrayName = [arrayValue]` OR<br>`let arrayName: Array<TypeName> = [arrayValue]` OR <br>`let arrayName: [TypeName] = [arrayValue]`|
 |`NSDictionary *`|`Dictionary`|
 |`NSMutableArray OR NSMutableDictionary ...`|` var arrayName...`|
 |`id` | `AnyObject`|
